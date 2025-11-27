@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 212898628359471008}
   - component: {fileID: 1378271831979346553}
   m_Layer: 0
-  m_Name: Fish
+  m_Name: Fish 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbd3e66d8d5be4a4aa0d7a875875d56b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  poisson: {fileID: 11400000, guid: 4b63c1be55fba9b4eb6380eb3238cf14, type: 2}
+  poisson: {fileID: 11400000, guid: f8f4b6986b9517648ba4af32e3baf923, type: 2}
   acceleration: {x: 0, y: 0}
   velocity: {x: 0, y: 0}
 --- !u!212 &212898628359471008
