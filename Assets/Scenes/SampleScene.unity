@@ -242,8 +242,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Size: {x: 20, y: 11}
-  fishPrefab: {fileID: 1138331384927246, guid: 9d1d0b91403a8814ab6853947579bad9, type: 3}
+  fish: {fileID: 1138331384927246, guid: 9d1d0b91403a8814ab6853947579bad9, type: 3}
   SpawningCount: 150
+  myCamera: {fileID: 519420031}
 --- !u!4 &576343055
 Transform:
   m_ObjectHideFlags: 0

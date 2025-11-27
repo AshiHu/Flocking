@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class FishTank : MonoBehaviour
 {
@@ -6,29 +7,79 @@ public class FishTank : MonoBehaviour
     private Vector2 Size = new Vector2(16f, 9f);
 
     [SerializeField]
-    private GameObject fishPrefab = null;
+    private GameObject fish = null;
 
     [Range(0, 300)]
     [SerializeField]
     private int SpawningCount;
 
-    private Fish[] fishes = null;
+    [SerializeField]
+    private Camera myCamera;
+
+    private List<Fish> fishes = new List<Fish>();
 
     private void Start()
     {
-        fishes = new Fish[SpawningCount];
         for (int i = 0; i < SpawningCount; i++)
         {
-            GameObject fishInstance = Instantiate(fishPrefab, transform);
-            fishInstance.gameObject.name = $"Fish {System.Guid.NewGuid()}";
-            fishes[i] = fishInstance.GetComponent<Fish>();
+            CreateFish(Vector3.zero);
         }
+    }
+
+    private void CreateFish(Vector3 worldPosition)
+    {
+        GameObject fishInstance = Instantiate(fish, transform);
+        fishInstance.gameObject.name = $"Fish {System.Guid.NewGuid()}";
+        fishInstance.transform.position = worldPosition;
+        fishes.Add(fishInstance.GetComponent<Fish>());
     }
 
     private void LateUpdate()
     {
+        // Add fish?
+        if (Input.GetMouseButton(0))
+        {
+            // Get mouse position
+            Vector3 mousePosition = Input.mousePosition;
+
+            // Project into world space
+            mousePosition = myCamera.ScreenToWorldPoint(mousePosition);
+
+            // Instantiate new fish.
+            CreateFish(mousePosition);
+        }
+
+        // Remove fish?
+        if (Input.GetMouseButtonDown(1))
+        {
+            // Get mouse position
+            Vector3 mousePosition = Input.mousePosition;
+
+            // Project into world space
+            mousePosition = myCamera.ScreenToWorldPoint(mousePosition);
+
+            // Get list of fish(es)
+            Collider2D[] fishesThatWillBeDestroyed = Physics2D.OverlapCircleAll(mousePosition, 1f);
+
+            // Destroy fish(es)
+            for (int i = 0; i < fishesThatWillBeDestroyed.Length; i++)
+            {
+                // Get single fish collider
+                Collider2D fishThatWillBeDestroyed = fishesThatWillBeDestroyed[i];
+
+                // Get its component
+                Fish removedFish = fishThatWillBeDestroyed.GetComponent<Fish>();
+
+                // Remove from list
+                fishes.Remove(removedFish);
+
+                // Bye bye!
+                Destroy(removedFish.gameObject);
+            }
+        }
+
         // Loop around out of bound fishes.
-        int fishesCount = fishes.Length;
+        int fishesCount = fishes.Count;
         for (int i = 0; i < fishesCount; i++)
         {
             Fish fish = fishes[i];
