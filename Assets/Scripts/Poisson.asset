@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Poisson
   m_EditorClassIdentifier: Assembly-CSharp::Poisson
   maxSpeed: 2.1
-  maxForce: 0.15
+  maxForce: 0.231
   neighborhoodRadius: 7.5
   separationRadius: 2
   separationAmount: 0.5
