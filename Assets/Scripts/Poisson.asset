@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7bde45a9e8b503240a943b2fe0cc0368, type: 3}
   m_Name: Poisson
   m_EditorClassIdentifier: Assembly-CSharp::Poisson
-  maxSpeed: 2.82
-  maxForce: 0.1
-  neighborhoodRadius: 9.03
-  separationRadius: 5.03
-  separationAmount: 1.13
-  cohesionAmount: 0.92
-  alignmentAmount: 1.44
+  maxSpeed: 2.1
+  maxForce: 0.15
+  neighborhoodRadius: 7.5
+  separationRadius: 2
+  separationAmount: 0.5
+  cohesionAmount: 0.5
+  alignmentAmount: 0.8

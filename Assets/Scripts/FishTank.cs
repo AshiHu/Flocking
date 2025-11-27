@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class FishTank : MonoBehaviour
 {
@@ -7,6 +8,11 @@ public class FishTank : MonoBehaviour
 
     [SerializeField]
     private GameObject fishPrefab = null;
+
+    [SerializeField]
+    private Camera myCamera;
+    private FishTank [] fishes = null;
+    private List<Fish> fishList = new List<Fish>();
 
     [Range(0, 300)]
     [SerializeField]
@@ -19,14 +25,48 @@ public class FishTank : MonoBehaviour
         fishes = new Fish[SpawningCount];
         for (int i = 0; i < SpawningCount; i++)
         {
-            GameObject fishInstance = Instantiate(fishPrefab, transform);
-            fishInstance.gameObject.name = $"Fish {System.Guid.NewGuid()}";
-            fishes[i] = fishInstance.GetComponent<Fish>();
+            CreateFish(Vector3.zero);
+        }
+
+        if (Input.GetMouseButton(1))
+        {
+            Vector3 mousePosition = Input.mousePosition;
+            mousePosition = myCamera.ScreenToWorldPoint(mousePosition);
+
+            Collider2D[] colliders = Physics2D.OverlapCircleAll(mousePosition, 1f);
+
+            for (int i = 0; i < fishesThatWillBeDestroyed.Length; i++)
+            {
+                colliders2D fishesThatWillBeDestroyed = fishesThatWillBeDestroyed[i];
+            }
         }
     }
-
+   
+    private void CreateFish(Vector3 WorldPosition)
+    
+    {
+          GameObject fishInstance = Instantiate(fishPrefab, transform);
+            fishInstance.gameObject.name = $"Fish {System.Guid.NewGuid()}";
+            fishList.Add(fishInstance.GetComponent<Fish>());
+    }
     private void LateUpdate()
     {
+        if (Input.GetMouseButton(0))
+        {
+            Vector3 mousePosition = Input.mousePosition;
+            mousePosition = myCamera.ScreenToWorldPoint(mousePosition);
+        }
+        {
+            Vector3 mousePosition = Input.mousePosition;
+            mousePosition.z = -myCamera.transform.position.z;
+            Vector3 worldPosition = myCamera.ScreenToWorldPoint(mousePosition);
+
+            foreach (Fish fish in fishes)
+            {
+                Vector3 direction = worldPosition - fish.transform.position;
+                fish.velocity += direction.normalized * 0.1f;
+            }
+        }
         // Loop around out of bound fishes.
         int fishesCount = fishes.Length;
         for (int i = 0; i < fishesCount; i++)

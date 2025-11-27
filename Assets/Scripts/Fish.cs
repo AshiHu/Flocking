@@ -8,7 +8,6 @@ public class Fish : MonoBehaviour
     [SerializeField]
     private Poisson poisson;
     
-
     public Vector2 acceleration;
     public Vector2 velocity;
 
