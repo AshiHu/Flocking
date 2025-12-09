@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7bde45a9e8b503240a943b2fe0cc0368, type: 3}
   m_Name: Default Fish
   m_EditorClassIdentifier: Assembly-CSharp::FishData
-  maxSpeed: 1
+  maxSpeed: 2.11
   maxForce: 0.1
-  neighborhoodRadius: 3
-  separationRadius: 1
-  separationAmount: 1
-  cohesionAmount: 1
-  alignmentAmount: 1
+  neighborhoodRadius: 6.75
+  separationRadius: 2.42
+  separationAmount: 2.04
+  cohesionAmount: 0.94
+  alignmentAmount: 1.37
