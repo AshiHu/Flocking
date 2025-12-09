@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7bde45a9e8b503240a943b2fe0cc0368, type: 3}
-  m_Name: Poisson
-  m_EditorClassIdentifier: Assembly-CSharp::Poisson
-  maxSpeed: 2.1
-  maxForce: 0.231
-  neighborhoodRadius: 7.5
-  separationRadius: 2
-  separationAmount: 0.5
-  cohesionAmount: 0.5
-  alignmentAmount: 0.8
+  m_Name: Default Fish
+  m_EditorClassIdentifier: Assembly-CSharp::FishData
+  maxSpeed: 1
+  maxForce: 0.1
+  neighborhoodRadius: 3
+  separationRadius: 1
+  separationAmount: 1
+  cohesionAmount: 1
+  alignmentAmount: 1

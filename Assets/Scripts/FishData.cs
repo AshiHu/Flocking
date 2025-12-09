@@ -1,9 +1,9 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Poisson", menuName = "Scriptable Objects/Poisson")]
-public class Poisson : ScriptableObject
+[CreateAssetMenu]
+public class FishData : ScriptableObject
 {
-     [Range(0, 10)]
+    [Range(0, 10)]
     public float maxSpeed = 1f;
 
     [Range(.1f, .5f)]

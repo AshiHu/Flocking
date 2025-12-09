@@ -1,13 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Purchasing;
 
 public class Fish : MonoBehaviour
 {
-    [SerializeField]
-    private Poisson poisson;
-    
+    public FishData data;
+
     public Vector2 acceleration;
     public Vector2 velocity;
 
@@ -20,7 +18,7 @@ public class Fish : MonoBehaviour
 
     private void Update()
     {
-        var boidColliders = Physics2D.OverlapCircleAll(transform.position, poisson.neighborhoodRadius);
+        var boidColliders = Physics2D.OverlapCircleAll(transform.position, data.neighborhoodRadius);
         var boids = boidColliders.Select(boidCollider => boidCollider.GetComponent<Fish>()).ToList();
         boids.Remove(this);
 
@@ -36,13 +34,13 @@ public class Fish : MonoBehaviour
         var separation = Separation(boids);
         var cohesion = Cohesion(boids);
 
-        acceleration = poisson.alignmentAmount * alignment + poisson.cohesionAmount * cohesion + poisson.separationAmount * separation;
+        acceleration = data.alignmentAmount * alignment + data.cohesionAmount * cohesion + data.separationAmount * separation;
     }
 
     public void UpdateVelocity()
     {
         velocity += acceleration;
-        velocity = LimitMagnitude(velocity, poisson.maxSpeed);
+        velocity = LimitMagnitude(velocity, data.maxSpeed);
     }
 
     private void UpdatePosition()
@@ -67,7 +65,7 @@ public class Fish : MonoBehaviour
         }
 
         velocity /= boids.Count();
-        var steer = Steer(velocity.normalized * poisson.maxSpeed);
+        var steer = Steer(velocity.normalized * data.maxSpeed);
         return steer;
     }
 
@@ -83,14 +81,14 @@ public class Fish : MonoBehaviour
 
         var average = sumPositions / boids.Count();
         var direction = average - (Vector2)transform.position;
-        var steer = Steer(direction.normalized * poisson.maxSpeed);
+        var steer = Steer(direction.normalized * data.maxSpeed);
         return steer;
     }
 
     private Vector2 Separation(IEnumerable<Fish> boids)
     {
         var direction = Vector2.zero;
-        boids = boids.Where(boid => Vector2.Distance(transform.position, boid.transform.position) <= poisson.separationRadius);
+        boids = boids.Where(boid => Vector2.Distance(transform.position, boid.transform.position) <= data.separationRadius);
         if (!boids.Any()) return direction;
 
         foreach (var boid in boids)
@@ -100,14 +98,14 @@ public class Fish : MonoBehaviour
         }
 
         direction /= boids.Count();
-        var steer = Steer(direction.normalized * poisson.maxSpeed);
+        var steer = Steer(direction.normalized * data.maxSpeed);
         return steer;
     }
 
     private Vector2 Steer(Vector2 desired)
     {
         var steer = desired - velocity;
-        steer = LimitMagnitude(steer, poisson.maxForce);
+        steer = LimitMagnitude(steer, data.maxForce);
         return steer;
     }
 
@@ -125,10 +123,10 @@ public class Fish : MonoBehaviour
     {
         // Neighborhood radius.
         Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(transform.position, poisson.neighborhoodRadius);
+        Gizmos.DrawWireSphere(transform.position, data.neighborhoodRadius);
 
         // Separation radius.
         Gizmos.color = Color.salmon;
-        Gizmos.DrawWireSphere(transform.position, poisson.separationRadius);
+        Gizmos.DrawWireSphere(transform.position, data.separationRadius);
     }
 }
