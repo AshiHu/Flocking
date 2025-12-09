@@ -7,7 +7,10 @@ public class FishTank : MonoBehaviour
     private Vector2 Size = new Vector2(16f, 9f);
 
     [SerializeField]
-    private GameObject fish = null;
+    private GameObject[] fishes = new GameObject[0];
+
+    [SerializeField]
+    private System.Tuple<GameObject, float>[] weightedFishes;
 
     [Range(0, 300)]
     [SerializeField]
@@ -16,7 +19,7 @@ public class FishTank : MonoBehaviour
     [SerializeField]
     private Camera myCamera;
 
-    private List<Fish> fishes = new List<Fish>();
+    private List<Fish> fishesInstances = new List<Fish>();
 
     private void Start()
     {
@@ -28,10 +31,15 @@ public class FishTank : MonoBehaviour
 
     private void CreateFish(Vector3 worldPosition)
     {
+        // Choisir un index au hasar selon la longueur de notre tableau de poissons
+        int randomIndex = Random.Range(0, fishes.Length);
+
+        // Récupère le prefab de poisson choisis au hasard
+        GameObject fish = fishes[randomIndex];
+
         GameObject fishInstance = Instantiate(fish, transform);
-        fishInstance.gameObject.name = $"Fish {System.Guid.NewGuid()}";
         fishInstance.transform.position = worldPosition;
-        fishes.Add(fishInstance.GetComponent<Fish>());
+        fishesInstances.Add(fishInstance.GetComponent<Fish>());
     }
 
     private void LateUpdate()
@@ -71,7 +79,7 @@ public class FishTank : MonoBehaviour
                 Fish removedFish = fishThatWillBeDestroyed.GetComponent<Fish>();
 
                 // Remove from list
-                fishes.Remove(removedFish);
+                fishesInstances.Remove(removedFish);
 
                 // Bye bye!
                 Destroy(removedFish.gameObject);
@@ -79,10 +87,10 @@ public class FishTank : MonoBehaviour
         }
 
         // Loop around out of bound fishes.
-        int fishesCount = fishes.Count;
+        int fishesCount = fishesInstances.Count;
         for (int i = 0; i < fishesCount; i++)
         {
-            Fish fish = fishes[i];
+            Fish fish = fishesInstances[i];
             Vector3 position = fish.transform.localPosition;
 
             // Left border?
